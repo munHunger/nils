@@ -26,7 +26,6 @@ function solveIK(input) {
  * Calculates all angles of the triangle based on its lengths using the formula
  * cos(A) =  b^2 + c^2 − a2^ / 2bc
  * @param {number[]} input The lengths of a triangle where the second and the last distances makes up for the first angle. The first and last distances make up the second angle
- * @param {number} input[0] side A
  * @returns {number[]} The angles of the triangle
  * @throws if the input is not of length 3 and thus not representing a triangle
  */
