@@ -23,5 +23,11 @@ npm run lint'''
         }
       }
     }
+    stage('check vulnerabilities') {
+      steps {
+        sh '''cd core
+npm audit'''
+      }
+    }
   }
 }
