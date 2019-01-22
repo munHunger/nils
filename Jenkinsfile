@@ -7,7 +7,7 @@ pipeline {
 npm install'''
       }
     }
-    stage('test core') {
+    stage('test & lint') {
       parallel {
         stage('test core') {
           steps {
