@@ -7,10 +7,20 @@ pipeline {
 npm install'''
       }
     }
-    stage('test') {
-      steps {
-        sh '''cd core
+    stage('test core') {
+      parallel {
+        stage('test core') {
+          steps {
+            sh '''cd core
 npm run test'''
+          }
+        }
+        stage('lint core') {
+          steps {
+            sh '''cd core
+npm run lint'''
+          }
+        }
       }
     }
   }
