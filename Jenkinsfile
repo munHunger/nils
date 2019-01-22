@@ -1,14 +1,16 @@
 pipeline {
   agent any
   stages {
-    stage('install') {
+    stage('install core') {
       steps {
-        sh 'npm install'
+        sh '''cd core
+npm install'''
       }
     }
     stage('test') {
       steps {
-        sh 'npm run test'
+        sh '''cd core
+npm run test'''
       }
     }
   }
