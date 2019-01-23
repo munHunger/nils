@@ -1,32 +1,68 @@
 pipeline {
   agent any
   stages {
-    stage('install core') {
-      steps {
-        sh '''cd core
+    stage('install') {
+      parallel {
+        stage('core') {
+          steps {
+            sh '''cd core
 npm install'''
+          }
+        }
+        stage('webb') {
+          steps {
+            sh '''cd webb
+npm install'''
+          }
+        }
       }
     }
-    stage('test & lint') {
+    stage('test') {
       parallel {
-        stage('test core') {
+        stage('core') {
           steps {
             sh '''cd core
 npm run test'''
           }
         }
-        stage('lint core') {
+        stage('webb') {
+          steps {
+            sh '''cd webb
+npm run test'''
+          }
+        }
+      }
+    }
+    stage('lint') {
+      parallel {
+        stage('core') {
           steps {
             sh '''cd core
+npm run lint'''
+          }
+        }
+        stage('webb') {
+          steps {
+            sh '''cd webb
 npm run lint'''
           }
         }
       }
     }
     stage('check vulnerabilities') {
-      steps {
-        sh '''cd core
+      parallel {
+        stage('core') {
+          steps {
+            sh '''cd core
 npm audit'''
+          }
+        }
+        stage('webb') {
+          steps {
+            sh '''cd webb
+npm audit'''
+          }
+        }
       }
     }
   }
