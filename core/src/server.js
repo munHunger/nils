@@ -7,7 +7,7 @@ const logger = require("./log/logger");
 const ikSolver = require("./ik/ik-solver");
 
 const port = 8000;
-app.get("/", function(req, res) {
+app.get("/ik", function(req, res) {
   logger.info("solving demo IK");
   res.status(200).json(
     ikSolver.solveIK({
