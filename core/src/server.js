@@ -12,15 +12,14 @@ app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.json({ type: "application/json" }));
 
-app.get("/ik", function(req, res) {
-  logger.info("solving demo IK");
-  res.status(200).json(
-    ikSolver.solveIK({
-      start: { x: 0, y: 0 },
-      end: { x: 5, y: 0 },
-      jointLengths: [5, 5]
-    })
-  );
+app.post("/ik", function(req, res) {
+  logger.info("solving IK");
+  var body = req.body;
+  logger.info(JSON.stringify(body));
+  var result = ikSolver.solveIK(body);
+  logger.info("solved IK");
+  logger.info(JSON.stringify(result));
+  res.status(200).json(result);
   res.end();
 });
 

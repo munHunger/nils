@@ -3,6 +3,45 @@
   <h1>NILS</h1>
   <img width="300" alt="Angular Logo" src="assets/robotIcon.png" />
 </div>
+<div>
+  <input
+    type="number"
+    name="startX"
+    placeholder="startX"
+    [(ngModel)]="data.start.x"
+  />
+  <input
+    type="number"
+    name="startY"
+    placeholder="startY"
+    [(ngModel)]="data.start.y"
+  />
+  <input
+    type="number"
+    name="endX"
+    placeholder="endX"
+    [(ngModel)]="data.end.x"
+  />
+  <input
+    type="number"
+    name="endY"
+    placeholder="endY"
+    [(ngModel)]="data.end.y"
+  />
+  <input
+    type="number"
+    name="l1"
+    placeholder="joint length 1"
+    [(ngModel)]="data.jointLengths[0]"
+  />
+  <input
+    type="number"
+    name="l2"
+    placeholder="joint length 1"
+    [(ngModel)]="data.jointLengths[1]"
+  />
+  <button (click)="send()">calculate</button>
+</div>
 <div *ngIf="result && result.length >= 2">
   ∠ {{ result[0] }}, {{ result[1] }}
 </div>

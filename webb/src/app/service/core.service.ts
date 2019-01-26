@@ -8,8 +8,8 @@ import { environment } from "./../../environments/environment";
 export class CoreService {
   constructor(private http: HttpClient) {}
 
-  public getIK(): Observable<any> {
-    return this.http.get<any>(environment.core.url + "/ik").pipe(
+  public getIK(any): Observable<any> {
+    return this.http.post<any>(environment.core.url + "/ik", any).pipe(
       map((data: any) => {
         return data;
       }),
