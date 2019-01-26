@@ -27,11 +27,8 @@ function solveIK(input) {
  * cos(A) =  b^2 + c^2 − a2^ / 2bc
  * @param {number[]} input The lengths of a triangle where the second and the last distances makes up for the first angle. The first and last distances make up the second angle
  * @returns {number[]} The angles of the triangle
- * @throws if the input is not of length 3 and thus not representing a triangle
  */
 function sssTriangle(input) {
-  if (input.length !== 3) throw "Input does not represent a triangle";
-
   let theta1 = Math.acos(
     (input[1] ** 2 + input[2] ** 2 - input[0] ** 2) / (2 * input[1] * input[2])
   );
