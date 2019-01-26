@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "./../../environments/environment";
@@ -23,6 +23,6 @@ export class CoreService {
     let errMsg: string;
     errMsg = `${error.status} - ${error.statusText || ""}`;
     console.error(errMsg);
-    return Observable.throw(errMsg);
+    return throwError(errMsg);
   }
 }
