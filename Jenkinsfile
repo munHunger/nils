@@ -29,5 +29,11 @@ npm run lint'''
 npm audit'''
       }
     }
+    stage('check code coverage') {
+      steps {
+        sh '''cd core
+npm run coverage'''
+      }
+    }
   }
 }
