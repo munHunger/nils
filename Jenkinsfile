@@ -13,8 +13,6 @@ npm install'''
       steps {
         sh '''cd core
 npm run test'''
-        sh '''cd webb
-npm run test'''
       }
     }
     stage('lint') {
