@@ -17,12 +17,13 @@ function solveIK(input) {
   let y = Math.abs(input.start.y - input.end.y);
   let dist = Math.sqrt(x ** 2 + y ** 2);
 
+  let rot = (Math.asin(y / dist) * 180) / Math.PI;
   let deg = sssTriangle([
     input.jointLengths[1],
     input.jointLengths[0],
     dist
   ]).map(deg => parseFloat(deg.toFixed(4)));
-  return [deg[0], deg[2]];
+  return [deg[0] + rot, deg[2]];
 }
 
 /**
