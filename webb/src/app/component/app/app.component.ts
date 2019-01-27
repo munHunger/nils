@@ -3,8 +3,7 @@ import { CoreService } from "src/app/service/core.service";
 
 @Component({
   selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  templateUrl: "./app.component.html"
 })
 export class AppComponent {
   result = [];
@@ -14,10 +13,10 @@ export class AppComponent {
       y: 0
     },
     end: {
-      x: 10,
+      x: 3,
       y: 0
     },
-    jointLengths: [5, 4]
+    jointLengths: [5, 5]
   };
 
   constructor(private coreService: CoreService) {

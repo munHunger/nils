@@ -45,4 +45,9 @@
 <div *ngIf="result && result.length >= 2">
   ∠ {{ result[0] }}, {{ result[1] }}
 </div>
+<viewport
+  [lengths]="data.jointLengths"
+  [rotations]="result"
+  [scale]="50"
+></viewport>
 <router-outlet></router-outlet>
