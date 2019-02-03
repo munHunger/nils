@@ -19,6 +19,11 @@ const logformat = printf(info => {
   return chalk.cyan(`{${info.label}} `) + level + ` \t${info.message}`;
 });
 
+/**
+ * Builds a logger component
+ * @param {string} component the component name identifier
+ * @returns {winston.Logger} a logger component
+ */
 function logger(component) {
   return winston.createLogger({
     level: "info",
