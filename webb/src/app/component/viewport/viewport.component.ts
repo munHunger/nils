@@ -14,7 +14,7 @@ export class ViewportComponent {
   ];
 
   private getPoints(): number[][][] {
-    let res = [[[0, 0, 0]]];
+    const res = [[[0, 0, 0]]];
     res[0].push(this.data[0].pos);
     for (let i = 1; i < this.data.length; i++)
       res.push([this.data[i - 1].pos, this.data[i].pos]);
