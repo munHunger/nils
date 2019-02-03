@@ -8,15 +8,24 @@ import { CoreService } from "src/app/service/core.service";
 export class AppComponent {
   result = [];
   private data = {
-    start: {
-      x: 0,
-      y: 0
+    target: {
+      pos: [30, 5, 0],
+      rot: [20, 20, 20]
     },
-    end: {
-      x: 3,
-      y: 0
-    },
-    jointLengths: [5, 5]
+    joints: [
+      {
+        length: 15,
+        rotAxis: [0, 0, 1]
+      },
+      {
+        length: 15,
+        rotAxis: [0, 0, 1]
+      },
+      {
+        length: 15,
+        rotAxis: [0, 0, 1]
+      }
+    ]
   };
 
   constructor(private coreService: CoreService) {
