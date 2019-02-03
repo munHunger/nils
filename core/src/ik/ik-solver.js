@@ -158,11 +158,11 @@ function rotate(matrix, angle, vector) {
 function jacobianIK(state) {
   state.joints.forEach(joint => (joint.rot = 0));
   forwardKinematics(state);
-  console.log(JSON.stringify(state));
   let last = -1;
   let dist = 1;
+  let margin = 0.00001;
   theta = state.joints.map(joint => joint.rot);
-  while (dist > 0.0001 && last !== dist) {
+  while (dist > margin && last !== dist) {
     last = dist;
     dist = Math.sqrt(
       subvector(state.target.pos, state.joints[state.joints.length - 1].pos)
@@ -170,7 +170,7 @@ function jacobianIK(state) {
         .reduce((acc, val) => (acc += val), 0)
     );
     dO = getDeltaOrientation(state);
-    theta = addvector(theta, dO.map(d => d * 0.0001));
+    theta = addvector(theta, dO.map(d => d * margin));
     for (let n = 0; n < state.joints.length; n++)
       state.joints[n].rot = theta[n];
     forwardKinematics(state);
@@ -178,7 +178,6 @@ function jacobianIK(state) {
   for (let n = 0; n < state.joints.length; n++)
     state.joints[n].rot = (state.joints[n].rot * 180) / Math.PI;
 
-  console.log(dist + ":" + last);
   return state.joints.map(joint => {
     return {
       pos: joint.pos.map(c => parseFloat(c.toFixed(4))),

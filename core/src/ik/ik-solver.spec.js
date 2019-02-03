@@ -29,28 +29,28 @@ describe("basics", () => {
     expect(
       ik.jacobianIK({
         target: {
-          pos: [10, 0, 0],
+          pos: [10, 5, 0],
           rot: [0, 0, 0]
         },
         joints: [
           {
-            length: 5,
+            length: 15,
             rotAxis: [0, 0, 1]
           },
           {
-            length: 5,
+            length: 15,
             rotAxis: [0, 0, 1]
           },
           {
-            length: 5,
+            length: 15,
             rotAxis: [0, 0, 1]
           }
         ]
       })
     ).toEqual([
-      { pos: [0, 0, 0], rot: 0 },
-      { pos: [0, 0, 0], rot: 0 },
-      { pos: [10, 0, 0], rot: 0 }
+      { pos: [15, 0, 0], rot: 58.633 },
+      { pos: [22.8078, 12.8078, 0], rot: 152.7339 },
+      { pos: [10, 5, 0], rot: 0 }
     ]);
   });
 });
