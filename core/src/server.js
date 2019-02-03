@@ -16,7 +16,7 @@ app.post("/ik", function(req, res) {
   logger.info("solving IK");
   var body = req.body;
   logger.info(JSON.stringify(body));
-  var result = ikSolver.solveIK(body);
+  var result = ikSolver.jacobianIK(body);
   logger.info("solved IK");
   logger.info(JSON.stringify(result));
   res.status(200).json(result);

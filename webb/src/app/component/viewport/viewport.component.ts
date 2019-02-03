@@ -7,22 +7,17 @@ import { Component, Input } from "@angular/core";
 })
 export class ViewportComponent {
   @Input()
-  private lengths = [5, 5];
-  @Input()
-  private scale = 10;
-  @Input()
-  private rotations = [60, 60];
+  private data = [
+    {
+      pos: [0, 0, 0]
+    }
+  ];
 
-  private getJointTransform(index: number): string {
-    return (
-      "translate(" +
-      this.lengths
-        .slice(0, index)
-        .map(l => l * this.scale)
-        .reduce((acc, val) => (acc += val), 0) +
-      " 0) rotate(" +
-      (180 - this.rotations[index]) +
-      " 0 0)"
-    );
+  private getPoints(): number[][][] {
+    let res = [[[0, 0, 0]]];
+    res[0].push(this.data[0].pos);
+    for (let i = 1; i < this.data.length; i++)
+      res.push([this.data[i - 1].pos, this.data[i].pos]);
+    return res;
   }
 }
