@@ -7,10 +7,14 @@ const logger = require("./log/logger");
 
 const ikSolver = require("./ik/ik-solver");
 
+const pathRoute = require("./path/route");
+
 const port = 9000;
 app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.json({ type: "application/json" }));
+
+pathRoute.init(app);
 
 app.post("/ik", function(req, res) {
   logger.info("solving IK");
