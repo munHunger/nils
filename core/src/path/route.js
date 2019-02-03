@@ -1,8 +1,8 @@
-const logger = require("../log/logger");
+const logger = require("../log/logger").logger("path");
 const ik = require("../ik/ik-solver");
-const path = require("./path");
+const pathSolver = require("./path");
 
-let path = new path.Path([
+let path = new pathSolver.Path([
   { pos: [15, 0, 0], rot: [0, 0, 0] },
   { pos: [5, 5, 0], rot: [0, 0, 0] },
   { pos: [0, 5, 0], rot: [0, 0, 0] },
@@ -25,14 +25,16 @@ let config = {
   ]
 };
 function init(app) {
-  app.post("/path/step", (req, res) => {
+  app.get("/path/step", (req, res) => {
     logger.info("stepping path forwards");
-    res.status(200).json(
-      ik.jacobianIK({
-        target: path.step(),
-        joints: config.joints
-      })
-    );
+    let setup = {
+      target: path.step(),
+      joints: config.joints
+    };
+    logger.info("sending config to IK:" + JSON.stringify(setup));
+    let response = ik.jacobianIK(setup);
+    logger.info("stepped into:" + JSON.stringify(response));
+    res.status(200).json(response);
     res.end();
   });
 }

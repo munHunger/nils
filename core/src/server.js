@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
 const app = express();
-const logger = require("./log/logger");
+const logger = require("./log/logger").logger("server");
 
 const ikSolver = require("./ik/ik-solver");
 

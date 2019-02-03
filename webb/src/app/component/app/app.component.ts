@@ -32,6 +32,10 @@ export class AppComponent {
     coreService.getIK(this.data).subscribe(res => (this.result = res));
   }
 
+  private step() {
+    this.coreService.step().subscribe(res => (this.result = res));
+  }
+
   private send() {
     this.coreService.getIK(this.data).subscribe(res => (this.result = res));
   }

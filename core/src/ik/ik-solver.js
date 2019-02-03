@@ -1,3 +1,5 @@
+const logger = require("../log/logger").logger("ik");
+
 /**
  * Runs forward kinematics on the state using matrix calculations
  *
@@ -114,7 +116,9 @@ function jacobianIK(state) {
   let dist = 1;
   let margin = 0.00001;
   theta = state.joints.map(joint => joint.rot);
-  while (dist > margin && last !== dist) {
+  let steps = 0;
+  while (dist > margin && last !== dist && steps < 500000) {
+    steps++;
     last = dist;
     dist = Math.sqrt(
       subvector(state.target.pos, state.joints[state.joints.length - 1].pos)
@@ -122,11 +126,14 @@ function jacobianIK(state) {
         .reduce((acc, val) => (acc += val), 0)
     );
     dO = getDeltaOrientation(state);
-    theta = addvector(theta, dO.map(d => d * margin));
+    theta = addvector(theta, dO.map(d => d * 0.001));
     for (let n = 0; n < state.joints.length; n++)
       state.joints[n].rot = theta[n];
     forwardKinematics(state);
   }
+  if (steps === 500000)
+    logger.error("did not solve IK after " + steps + " steps");
+  else logger.info("solved in " + steps + " steps");
   for (let n = 0; n < state.joints.length; n++)
     state.joints[n].rot = (state.joints[n].rot * 180) / Math.PI;
 
