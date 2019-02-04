@@ -7,9 +7,10 @@ import { AppComponent } from "./component/app/app.component";
 import { CoreService } from "./service/core.service";
 import { HttpClientModule } from "@angular/common/http";
 import { ViewportComponent } from "./component/viewport/viewport.component";
+import { LoggingComponent } from "./component/logging/logging.component";
 
 @NgModule({
-  declarations: [AppComponent, ViewportComponent],
+  declarations: [AppComponent, ViewportComponent, LoggingComponent],
   imports: [FormsModule, BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [CoreService],
   bootstrap: [AppComponent]

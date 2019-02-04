@@ -1,4 +1,3 @@
-const chalk = require("chalk");
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
@@ -8,6 +7,10 @@ const logger = require("./log/logger").logger("server");
 const ikSolver = require("./ik/ik-solver");
 
 const pathRoute = require("./path/route");
+const logRoute = require("./log/route");
+
+const fs = require("fs");
+fs.writeFileSync("server.log", "");
 
 const port = 9000;
 app.use(cors());
@@ -15,6 +18,7 @@ app.options("*", cors());
 app.use(bodyParser.json({ type: "application/json" }));
 
 pathRoute.init(app);
+logRoute.init(app);
 
 app.post("/ik", function(req, res) {
   logger.info("solving IK");
