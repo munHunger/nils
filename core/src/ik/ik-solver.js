@@ -106,10 +106,11 @@ function rotate(matrix, angle, vector) {
  * @param {Object[]} state.joints the joint configuration to solve with
  * @param {number} state.joints[].length the length of the joint expressed in arbitrary units
  * @param {number[]} state.joints[].rotAxis the [x,y,z] rotation vector for the joint
+ * @param {number} [step] a simulation step size. this can be experimented with to get optimal stability and speed. most likely in the range 0.0000001 < step < 1
  *
  * @returns {joint} the resulting state
  */
-function jacobianIK(state) {
+function jacobianIK(state, step) {
   state.joints.forEach(joint => {
     joint.rot = joint.rot ? joint.rot : 0;
   });
@@ -128,25 +129,14 @@ function jacobianIK(state) {
         .reduce((acc, val) => (acc += val), 0)
     );
     dO = getDeltaOrientation(state);
-    theta = addvector(theta, dO.map(d => d * 0.00001)).map(
+    theta = addvector(theta, dO.map(d => d * (step ? step : 0.00001))).map(
       a => a % (2 * Math.PI)
     );
     for (let n = 0; n < state.joints.length; n++)
       state.joints[n].rot = theta[n];
     forwardKinematics(state);
   }
-  if (steps === 500000)
-    logger.error("did not solve IK after " + steps + " steps");
-  else logger.info("solved in " + steps + " steps");
-  for (let n = 0; n < state.joints.length; n++)
-    state.joints[n].rot = (state.joints[n].rot * 180) / Math.PI;
-
-  return state.joints.map(joint => {
-    return {
-      pos: joint.pos.map(c => parseFloat(c.toFixed(4))),
-      rot: parseFloat(joint.rot.toFixed(4))
-    };
-  });
+  return steps;
 }
 
 /**
