@@ -154,6 +154,14 @@ function jacobianIK(state, maxIterations) {
   });
 }
 
+/**
+ * Calculates the distance between two points.
+ * @example
+ * |v1-v2|
+ * @param {number[]} p1 a [x,y,z] coordinate
+ * @param {number[]} p2 a [x,y,z] coordinate
+ * @returns {number} the length of the vector p1-p2
+ */
 function calculateDistance(p1, p2) {
   return Math.sqrt(
     subvector(p1, p2)
@@ -249,34 +257,6 @@ function matrixMultiplication(m1, m2) {
 }
 
 /**
- * rotates a matrix clockwise
- * @example
- * transpose([
- * [99, 123, 43],
- * [123, 432, 345],
- * [645, 345, 765],
- * [123,41,75]
- * ]) = [
- * [99, 123, 645, 123],
- * [123, 432, 345, 41],
- * [43, 345, 765, 75]
- * ]
- *
- * @param {Array.<Array.<number>>} matrix the matrix to transpose
- * @returns {Array.<Array.<number>>} the transposed matrix
- */
-function transpose(matrix) {
-  let width = matrix.length;
-  let height = matrix[0].length;
-  let result = [];
-  for (let i = 0; i < height; i++) {
-    result[i] = [];
-    for (let n = 0; n < width; n++) result[i][n] = matrix[n][i];
-  }
-  return result;
-}
-
-/**
  * Subtracts a vector from another cell by cell
  *
  * @example
@@ -313,7 +293,6 @@ function addvector(v1, v2) {
 module.exports = {
   jacobianIK,
   subvector,
-  transpose,
   matrixVectorMult,
   crossProduct,
   matrixMultiplication

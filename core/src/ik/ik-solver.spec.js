@@ -34,16 +34,6 @@ describe("basics", () => {
 describe("math", () => {
   it("can subtract vectors", () =>
     expect(ik.subvector([3, 2, 5], [1, 2, 4])).toEqual([2, 0, 1]));
-
-  it("can transpose a vector", () =>
-    expect(
-      ik.transpose([
-        [99, 123, 43],
-        [123, 432, 345],
-        [645, 345, 765],
-        [123, 41, 75]
-      ])
-    ).toEqual([[99, 123, 645, 123], [123, 432, 345, 41], [43, 345, 765, 75]]));
   it("can multiply matrix with vector", () =>
     expect(ik.matrixVectorMult([[1, 2, 3], [4, 5, 6]], [9, 8, 7])).toEqual([
       46,
