@@ -19,10 +19,21 @@ const logformat = printf(info => {
   return chalk.cyan(`{${info.label}} `) + level + ` \t${info.message}`;
 });
 
-const logger = winston.createLogger({
-  level: "info",
-  format: combine(label({ label: "core" }), timestamp(), logformat),
-  transports: [new winston.transports.Console()]
-});
+/**
+ * Builds a logger component
+ * @param {string} component the component name identifier
+ * @returns {winston.Logger} a logger component
+ */
+function logger(component) {
+  return winston.createLogger({
+    level: "info",
+    format: combine(
+      label({ label: "core." + component }),
+      timestamp(),
+      logformat
+    ),
+    transports: [new winston.transports.Console()]
+  });
+}
 
-module.exports = logger;
+module.exports = { logger };

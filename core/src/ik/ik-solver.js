@@ -1,3 +1,5 @@
+const logger = require("../log/logger").logger("ik");
+
 /**
  * Runs forward kinematics on the state using matrix calculations
  *
@@ -104,29 +106,40 @@ function rotate(matrix, angle, vector) {
  * @param {Object[]} state.joints the joint configuration to solve with
  * @param {number} state.joints[].length the length of the joint expressed in arbitrary units
  * @param {number[]} state.joints[].rotAxis the [x,y,z] rotation vector for the joint
+ * @param {number} maxIterations the max amount of iterations to run before exiting. defaults to 10E5
  *
  * @returns {joint} the resulting state
  */
-function jacobianIK(state) {
-  state.joints.forEach(joint => (joint.rot = 0));
+function jacobianIK(state, maxIterations) {
+  state.joints.forEach(joint => {
+    joint.rot = joint.rot ? joint.rot : 0;
+  });
   forwardKinematics(state);
   let last = -1;
-  let dist = 1;
+  let dist = Number.MAX_SAFE_INTEGER;
   let margin = 0.00001;
-  theta = state.joints.map(joint => joint.rot);
-  while (dist > margin && last !== dist) {
+  let theta = state.joints.map(joint => joint.rot);
+  let steps = 0;
+  maxIterations = maxIterations ? maxIterations : 100000;
+  while (dist > margin && last !== dist && steps < maxIterations) {
+    steps++;
     last = dist;
-    dist = Math.sqrt(
-      subvector(state.target.pos, state.joints[state.joints.length - 1].pos)
-        .map(v => v ** 2)
-        .reduce((acc, val) => (acc += val), 0)
+    dist = calculateDistance(
+      state.target.pos,
+      state.joints[state.joints.length - 1].pos
     );
-    dO = getDeltaOrientation(state);
-    theta = addvector(theta, dO.map(d => d * margin));
+    let dO = getDeltaOrientation(state);
+    theta = addvector(theta, dO.map(d => d * 0.0032)).map(
+      a => a % (2 * Math.PI)
+    );
     for (let n = 0; n < state.joints.length; n++)
       state.joints[n].rot = theta[n];
     forwardKinematics(state);
   }
+  if (steps === maxIterations) {
+    logger.error("did not solve IK after " + steps + " steps");
+    return undefined;
+  } else logger.info("solved in " + steps + " steps");
   for (let n = 0; n < state.joints.length; n++)
     state.joints[n].rot = (state.joints[n].rot * 180) / Math.PI;
 
@@ -136,6 +149,22 @@ function jacobianIK(state) {
       rot: parseFloat(joint.rot.toFixed(4))
     };
   });
+}
+
+/**
+ * Calculates the distance between two points.
+ * @example
+ * |v1-v2|
+ * @param {number[]} p1 a [x,y,z] coordinate
+ * @param {number[]} p2 a [x,y,z] coordinate
+ * @returns {number} the length of the vector p1-p2
+ */
+function calculateDistance(p1, p2) {
+  return Math.sqrt(
+    subvector(p1, p2)
+      .map(v => v ** 2)
+      .reduce((acc, val) => (acc += val), 0)
+  );
 }
 
 /**
@@ -160,16 +189,14 @@ function getDeltaOrientation(state) {
  * @returns {Array.<Array.<number>>} the jacobian transpose matrix
  */
 function jacobianTranspose(state) {
-  return transpose(
-    state.joints
-      .map(joint =>
-        crossProduct(joint.rotAxis, subvector(state.target.pos, joint.pos))
-      )
-      .reduce((acc, val) => {
-        acc.push(val);
-        return acc;
-      }, [])
-  );
+  return state.joints
+    .map(joint =>
+      crossProduct(joint.rotAxis, subvector(state.target.pos, joint.pos))
+    )
+    .reduce((acc, val) => {
+      acc.push(val);
+      return acc;
+    }, []);
 }
 
 /**
@@ -227,34 +254,6 @@ function matrixMultiplication(m1, m2) {
 }
 
 /**
- * rotates a matrix clockwise
- * @example
- * transpose([
- * [99, 123, 43],
- * [123, 432, 345],
- * [645, 345, 765],
- * [123,41,75]
- * ]) = [
- * [99, 123, 645, 123],
- * [123, 432, 345, 41],
- * [43, 345, 765, 75]
- * ]
- *
- * @param {Array.<Array.<number>>} matrix the matrix to transpose
- * @returns {Array.<Array.<number>>} the transposed matrix
- */
-function transpose(matrix) {
-  let width = matrix.length;
-  let height = matrix[0].length;
-  let result = [];
-  for (let i = 0; i < height; i++) {
-    result[i] = [];
-    for (let n = 0; n < width; n++) result[i][n] = matrix[n][i];
-  }
-  return result;
-}
-
-/**
  * Subtracts a vector from another cell by cell
  *
  * @example
@@ -291,7 +290,6 @@ function addvector(v1, v2) {
 module.exports = {
   jacobianIK,
   subvector,
-  transpose,
   matrixVectorMult,
   crossProduct,
   matrixMultiplication

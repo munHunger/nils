@@ -19,6 +19,17 @@ export class CoreService {
     );
   }
 
+  public step(): Observable<any> {
+    return this.http.get<any>(environment.core.url + "/path/step").pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError(error => {
+        return this.handleError(error);
+      })
+    );
+  }
+
   handleError(error: Response | any) {
     let errMsg: string;
     errMsg = `${error.status} - ${error.statusText || ""}`;
