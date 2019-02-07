@@ -128,10 +128,6 @@ function jacobianIK(state, maxIterations) {
       state.target.pos,
       state.joints[state.joints.length - 1].pos
     );
-    if (last < dist)
-      throw new Error(
-        "Jacobian step did not move endfactor closer on step " + steps
-      );
     let dO = getDeltaOrientation(state);
     theta = addvector(theta, dO.map(d => d * 0.0032)).map(
       a => a % (2 * Math.PI)
@@ -140,9 +136,10 @@ function jacobianIK(state, maxIterations) {
       state.joints[n].rot = theta[n];
     forwardKinematics(state);
   }
-  if (steps === maxIterations)
+  if (steps === maxIterations) {
     logger.error("did not solve IK after " + steps + " steps");
-  else logger.info("solved in " + steps + " steps");
+    return undefined;
+  } else logger.info("solved in " + steps + " steps");
   for (let n = 0; n < state.joints.length; n++)
     state.joints[n].rot = (state.joints[n].rot * 180) / Math.PI;
 

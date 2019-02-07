@@ -29,6 +29,62 @@ describe("basics", () => {
       { pos: [10, 5, 0], rot: 0 }
     ]);
   });
+  it("breaks early if desired and returns undefined", () => {
+    expect(
+      ik.jacobianIK(
+        {
+          target: {
+            pos: [10, 5, 0],
+            rot: [0, 0, 0]
+          },
+          joints: [
+            {
+              length: 15,
+              rotAxis: [0, 0, 1]
+            },
+            {
+              length: 15,
+              rotAxis: [0, 0, 1]
+            },
+            {
+              length: 15,
+              rotAxis: [0, 0, 1]
+            }
+          ]
+        },
+        1
+      )
+    ).toEqual(undefined);
+  });
+  it("joints can have predefined rotations", () => {
+    expect(
+      ik.jacobianIK(
+        {
+          target: {
+            pos: [10, 5, 0],
+            rot: [0, 0, 0]
+          },
+          joints: [
+            {
+              length: 15,
+              rotAxis: [0, 0, 1],
+              rot: 5
+            },
+            {
+              length: 15,
+              rotAxis: [0, 0, 1],
+              rot: 53
+            },
+            {
+              length: 15,
+              rotAxis: [0, 0, 1]
+            }
+          ]
+        },
+        1
+      )
+    ).toEqual(undefined);
+  });
 });
 
 describe("math", () => {
