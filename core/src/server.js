@@ -1,10 +1,9 @@
-const chalk = require("chalk");
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
 const app = express();
 const logger = require("./log/logger").logger("server");
-
+const config = require("./config/config");
 const ikSolver = require("./ik/ik-solver");
 
 const pathRoute = require("./path/route");
@@ -15,6 +14,22 @@ app.options("*", cors());
 app.use(bodyParser.json({ type: "application/json" }));
 
 pathRoute.init(app);
+
+app.post("/position", function(req, res) {
+  var body = req.body;
+  logger.info("Positioning robot to " + JSON.stringify(body));
+  var result = ikSolver.jacobianIK({
+    target: {
+      pos: body,
+      rot: [0, 0, 0]
+    },
+    joints: config.joints
+  });
+  logger.info("solved IK");
+  logger.info(JSON.stringify(result));
+  res.status(200).json(result);
+  res.end();
+});
 
 app.post("/ik", function(req, res) {
   logger.info("solving IK");

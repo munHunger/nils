@@ -1,0 +1,30 @@
+<div>
+  <button (click)="step()">step</button>
+</div>
+<viewport
+  [data]="result"
+  [ortographic]="[true, true, false]"
+  title="x/y - ortographic - top"
+  (newPos)="moveRobot($event)"
+  [pathPoints]="pathPoints"
+  (newPath)="addPathPoint($event)"
+  [path]="path"
+></viewport>
+<viewport
+  [data]="result"
+  [ortographic]="[true, false, true]"
+  title="x/z - ortographic - side"
+  (newPos)="moveRobot($event)"
+  [pathPoints]="pathPoints"
+  (newPath)="addPathPoint($event)"
+  [path]="path"
+></viewport>
+<viewport
+  [data]="result"
+  [ortographic]="[false, true, true]"
+  title="y/z - ortographic - front"
+  (newPos)="moveRobot($event)"
+  [pathPoints]="pathPoints"
+  (newPath)="addPathPoint($event)"
+  [path]="path"
+></viewport>

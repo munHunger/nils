@@ -1,22 +1,5 @@
-<div>
-  <button (click)="step()">step</button>
-</div>
 <face></face>
 <div>
-  <viewport
-    [data]="result"
-    [ortographic]="[true, true, false]"
-    title="x/y - ortographic - top"
-  ></viewport>
-  <viewport
-    [data]="result"
-    [ortographic]="[true, false, true]"
-    title="x/z - ortographic - side"
-  ></viewport>
-  <viewport
-    [data]="result"
-    [ortographic]="[false, true, true]"
-    title="y/z - ortographic - front"
-  ></viewport>
+  <robot></robot>
 </div>
 <router-outlet></router-outlet>

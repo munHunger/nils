@@ -1,4 +1,4 @@
-@import "../../scss/main.scss";
+@import "../../../scss/main.scss";
 
 .container {
   position: relative;
@@ -19,6 +19,14 @@
   stroke-width: 2px;
 }
 
+.path {
+  stroke: $color6;
+}
+
 .title {
   color: $color4;
+}
+
+rect {
+  stroke: $color5;
 }

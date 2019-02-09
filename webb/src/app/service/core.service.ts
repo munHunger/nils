@@ -30,6 +30,33 @@ export class CoreService {
     );
   }
 
+  public position(pos): Observable<any> {
+    return this.http.post<any>(environment.core.url + "/position", pos).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError(error => {
+        return this.handleError(error);
+      })
+    );
+  }
+
+  public addPath(points): Observable<any> {
+    return this.http.post<any>(environment.core.url + "/path", points).pipe(
+      map(data => data),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  public getBezier(points): Observable<any> {
+    return this.http
+      .post<any>(environment.core.url + "/path/bezier", points)
+      .pipe(
+        map(data => data),
+        catchError(error => this.handleError(error))
+      );
+  }
+
   handleError(error: Response | any) {
     let errMsg: string;
     errMsg = `${error.status} - ${error.statusText || ""}`;
