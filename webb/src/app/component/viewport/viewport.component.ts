@@ -13,11 +13,25 @@ export class ViewportComponent {
     }
   ];
 
+  @Input()
+  private title: string;
+
+  @Input()
+  private ortographic = [true, true, false];
+
   private getPoints(): number[][][] {
     const res = [[[0, 0, 0]]];
-    res[0].push(this.data[0].pos);
+    res[0].push(this.projectPoint(this.data[0].pos));
     for (let i = 1; i < this.data.length; i++)
-      res.push([this.data[i - 1].pos, this.data[i].pos]);
+      res.push(
+        [this.data[i - 1].pos, this.data[i].pos].map(p => this.projectPoint(p))
+      );
     return res;
+  }
+
+  private projectPoint(point) {
+    return point
+      .map((v, i) => (this.ortographic[i] ? v : undefined))
+      .filter(v => v);
   }
 }

@@ -1,33 +1,22 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>NILS</h1>
-  <img width="300" alt="Angular Logo" src="assets/robotIcon.png" />
-</div>
 <div>
-  <input
-    type="number"
-    name="x"
-    placeholder="x"
-    [(ngModel)]="data.target.pos[0]"
-    (change)="send()"
-  />
-  <input
-    type="number"
-    name="y"
-    placeholder="y"
-    [(ngModel)]="data.target.pos[1]"
-    (change)="send()"
-  />
-  <input
-    type="number"
-    name="rot"
-    placeholder="rot"
-    [(ngModel)]="data.target.rot[2]"
-    (change)="send()"
-  />
-  <button (click)="send()">calculate</button>
   <button (click)="step()">step</button>
 </div>
-<div *ngFor="let r of result">∠ {{ r.rot }}</div>
-<viewport [data]="result"></viewport>
+<face></face>
+<div>
+  <viewport
+    [data]="result"
+    [ortographic]="[true, true, false]"
+    title="x/y - ortographic - top"
+  ></viewport>
+  <viewport
+    [data]="result"
+    [ortographic]="[true, false, true]"
+    title="x/z - ortographic - side"
+  ></viewport>
+  <viewport
+    [data]="result"
+    [ortographic]="[false, true, true]"
+    title="y/z - ortographic - front"
+  ></viewport>
+</div>
 <router-outlet></router-outlet>

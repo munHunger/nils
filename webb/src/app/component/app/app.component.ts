@@ -9,21 +9,33 @@ export class AppComponent {
   result = [];
   private data = {
     target: {
-      pos: [30, 5, 0],
+      pos: [30, 15, 20],
       rot: [20, 20, 20]
     },
     joints: [
       {
-        length: 15,
+        length: 1,
         rotAxis: [0, 0, 1]
       },
       {
         length: 15,
+        rotAxis: [0, 1, 0]
+      },
+      {
+        length: 1,
         rotAxis: [0, 0, 1]
       },
       {
         length: 15,
+        rotAxis: [0, 1, 0]
+      },
+      {
+        length: 1,
         rotAxis: [0, 0, 1]
+      },
+      {
+        length: 15,
+        rotAxis: [0, 1, 0]
       }
     ]
   };
