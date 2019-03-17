@@ -14,7 +14,7 @@ export class RobotComponent {
   private path = [];
 
   constructor(private coreService: CoreService) {
-    coreService.position([30, 15, 20]).subscribe(res => (this.result = res));
+    coreService.position([20, 15, 10]).subscribe(res => (this.result = res));
   }
 
   private step() {
@@ -22,6 +22,7 @@ export class RobotComponent {
   }
 
   private moveRobot($event) {
+    console.log($event);
     if (this.path.length > 0)
       this.coreService.addPath(this.path).subscribe(() => (this.path = []));
     else

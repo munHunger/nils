@@ -1,6 +1,8 @@
 <div>
   <button (click)="step()">step</button>
 </div>
+<sliders (newPos)="moveRobot($event)"></sliders>
+<!-- <scene></scene> -->
 <viewport
   [data]="result"
   [ortographic]="[true, true, false]"

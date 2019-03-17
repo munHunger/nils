@@ -31,6 +31,7 @@ app.post("/position", function(req, res) {
   res.end();
 });
 
+//Probably deprecated
 app.post("/ik", function(req, res) {
   logger.info("solving IK");
   var body = req.body;

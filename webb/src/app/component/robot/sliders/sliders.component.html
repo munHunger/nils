@@ -1,0 +1,35 @@
+<div class="container">
+  <span class="label">X-value: {{ position[0] }}</span>
+  <input
+    type="range"
+    min="-10"
+    max="10"
+    step="0.1"
+    [(ngModel)]="position[0]"
+    class="slider"
+    id="x"
+    (ngModelChange)="change()"
+  />
+  <span class="label">Y-value: {{ position[1] }}</span>
+  <input
+    type="range"
+    min="-10"
+    max="10"
+    step="0.1"
+    [(ngModel)]="position[1]"
+    class="slider"
+    id="y"
+    (ngModelChange)="change()"
+  />
+  <span class="label">Z-value: {{ position[2] }}</span>
+  <input
+    type="range"
+    min="-10"
+    max="10"
+    step="0.1"
+    [(ngModel)]="position[2]"
+    class="slider"
+    id="z"
+    (ngModelChange)="change()"
+  />
+</div>

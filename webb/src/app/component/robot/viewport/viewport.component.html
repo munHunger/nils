@@ -15,6 +15,8 @@
         class="joint"
       />
 
+      <circle cx="0" cy="0" [attr.r]="getReach()" class="reach" />
+
       <line
         *ngFor="let p of getPath()"
         [attr.x1]="p[0][0]"

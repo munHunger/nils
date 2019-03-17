@@ -41,6 +41,14 @@ export class ViewportComponent {
     return res;
   }
 
+  private getReach() {
+    let reach = 40;
+    let a = this.data[this.data.length - 1].pos.filter(
+      (_, i) => !this.ortographic[i]
+    )[0];
+    return Math.sqrt(reach ** 2 - a ** 2);
+  }
+
   private getPath(): number[][][] {
     if (this.path.length == 0) return [];
     const res = [];
@@ -65,6 +73,11 @@ export class ViewportComponent {
   }
 
   private onClick($event) {
+    console.log(this.data[this.data.length-1].pos);
+    console.log(
+      "emitting: " +
+        JSON.stringify(this.mapTo3D([$event.offsetX, $event.offsetY]))
+    );
     this.newPos.emit(this.mapTo3D([$event.offsetX, $event.offsetY]));
   }
 

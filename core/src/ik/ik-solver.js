@@ -129,7 +129,7 @@ function jacobianIK(state, maxIterations) {
       state.joints[state.joints.length - 1].pos
     );
     let dO = getDeltaOrientation(state);
-    theta = addvector(theta, dO.map(d => d * 0.0032)).map(
+    theta = addvector(theta, dO.map(d => d * 0.0002)).map(
       a => a % (2 * Math.PI)
     );
     for (let n = 0; n < state.joints.length; n++)
